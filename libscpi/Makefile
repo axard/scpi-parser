@@ -1,7 +1,14 @@
 VERSION = 2.1.0
 LIBNAME = scpi
 
+# optimisation flags
+OPT_FLAGS =
+# architecture flags
+ARCH_FLAGS =
+# floating point flags
+FP_FLAGS =
 CFLAGS += -Wextra -Wmissing-prototypes -Wimplicit -Iinc
+CFLAGS += $(OPT_FLAGS) $(ARCH_FLAGS) $(FP_FLAGS)
 CFLAGS_SHARED += $(CFLAGS) -fPIC
 LDFLAGS += -Wl,--as-needed
 #TESTCFLAGS += $(CFLAGS) `pkg-config --cflags cunit`
@@ -72,8 +79,8 @@ install: $(DISTDIR)/$(STATICLIB) $(DISTDIR)/$(SHAREDLIBVER)
 	test -d $(LIBDIR) || mkdir $(LIBDIR)
 	test -d $(INCDIR) || mkdir $(INCDIR)
 	test -d $(INCDIR)/scpi || mkdir $(INCDIR)/scpi
-	install -m 0644 $(DISTDIR)/$(STATICLIB) $(LIBDIR)
-	install -m 0644 $(DISTDIR)/$(SHAREDLIBVER) $(LIBDIR)
+	! test -e $(DISTDIR)/$(STATICLIB || install -m 0644 $(DISTDIR)/$(STATICLIB) $(LIBDIR)
+	! test -e $(DISTDIR)/$(SHAREDLIBVER) || install -m 0644 $(DISTDIR)/$(SHAREDLIBVER) $(LIBDIR)
 	install -m 0644 inc/scpi/*.h $(INCDIR)/scpi
 
 $(OBJDIR_STATIC):

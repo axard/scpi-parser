@@ -1,8 +1,15 @@
-.PHONY: clean all test install
+.PHONY: clean all test install examples shared static
 
-all:
-	$(MAKE) -C libscpi
+all: static shared examples
+
+examples: shared static
 	$(MAKE) -C examples
+
+shared:
+	$(MAKE) shared -C libscpi
+
+static:
+	$(MAKE) static -C libscpi
 
 clean:
 	$(MAKE) clean -C libscpi
